@@ -19,10 +19,14 @@ const Profile = () => {
     const navigation = useNavigation()
 
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isModalVisible1, setModalVisible1] = useState(false);
+
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
-
+    const toggleModal1 = () => {
+        setModalVisible1(!isModalVisible1);
+    };
 
     const userInfo = {
         fullName: '',
@@ -35,11 +39,6 @@ const Profile = () => {
     });
 
 
-    // const [fullName, setFullname] = useState("");
-    // const [phoneNumber, setphoneNumber] = useState("");
-    // const email = auth.currentUser.email;
-
-
     const Logout = async () => {
 
         signOut(auth).then((result) => {
@@ -50,9 +49,9 @@ const Profile = () => {
         });
     }
 
-    const updateProfile = async (newUser) => {
-        const fullName = newUser.fullName;
-        const phoneNumber = newUser.phoneNumber;
+    const updateProfile = async (values) => {
+        const fullName = values.fullName;
+        const phoneNumber = values.phoneNumber;
         const eamil = auth.currentUser.email;
         try {
             await updateDoc(doc(db, "accounts", auth.currentUser.uid), {
@@ -61,11 +60,12 @@ const Profile = () => {
                 eamil: eamil
             })
             console.log('Profile updated');
-            setModalVisible(!isModalVisible);
+            setModalVisible1(!isModalVisible1);
         } catch (err) {
             console.log(err.message)
         }
     }
+
 
     return (
         <Formik initialValues={userInfo} validationSchema={ProfileSchema} onSubmit={(values) => updateProfile(values)} >
@@ -89,7 +89,7 @@ const Profile = () => {
                                     <Text style={styles.errorMessage}>{errors.fullName}</Text>
                                     : null
                             }
-                            <Text>phone number (optional)</Text>
+                            <Text>phone number</Text>
                             <TextInput
                                 style={styles.input}
                                 placeholder="Enter you phone number"
@@ -106,7 +106,7 @@ const Profile = () => {
                             />
                             <View style={styles.btnContainer}>
                                 <TouchableOpacity>
-                                    <Text style={styles.savebtn} onPress={updateProfile}>save</Text>
+                                    <Text style={styles.savebtn} onPress={handleSubmit}>save</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.btnContainer}>
@@ -121,11 +121,21 @@ const Profile = () => {
                                 <Text style={styles.discardText}>Discard changes</Text>
                                 <Text style={styles.discriptionText}>are you sure  want to discard changes ? By confirming all the changes will be lost </Text>
                                 <View style={styles.btnContainer}>
-                                    <TouchableOpacity style={styles.YesBtn} onPress={handleSubmit}>
+                                    <TouchableOpacity style={styles.YesBtn} onPress={toggleModal}>
                                         <Text style={styles.YesText}>Yes</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity style={styles.noBtn} onPress={toggleModal}>
                                         <Text style={styles.NoText}>No</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+                        <Modal isVisible={isModalVisible1}>
+                            <View style={styles.modalContainer}>
+                                <Text style={styles.discardText}>Profile Updatted</Text>
+                                <View style={styles.btnContainer}>
+                                    <TouchableOpacity style={styles.YesBtn} onPress={toggleModal1}>
+                                        <Text style={styles.YesText}>OK</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>

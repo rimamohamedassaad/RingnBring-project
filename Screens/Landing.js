@@ -26,7 +26,7 @@ export default function Landing() {
                     <Text style={styles.googleText}>Continue with Google</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.emailBtn} onPress={() => navigation.navigate('login')}>
+                <TouchableOpacity style={styles.emailBtn} onPress={() => navigation.navigate('register')}>
                     <Text style={styles.emailText}>Continue with email</Text>
                 </TouchableOpacity>
 

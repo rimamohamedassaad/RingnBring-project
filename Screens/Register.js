@@ -22,6 +22,8 @@ const Register = () => {
     const userInfo = {
         email: '',
         password: '',
+        fullName: '',
+        phoneNumber: ''
     }
     //validation schema 
     const createUserSchema = Yup.object().shape({
@@ -40,6 +42,9 @@ const Register = () => {
                 navigation.navigate("Home")
                 setDoc(doc(db, "accounts", auth.currentUser.uid), {
                     eamil: email,
+                    phoneNumber: '',
+                    fullName: ''
+
                 })
             })
             .catch((error) => {
@@ -88,7 +93,7 @@ const Register = () => {
                         </View>
                         <View style={styles.subContainer}>
                             <Text style={styles.account}>already have account?</Text>
-                            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('login')}>
                                 <Text style={styles.createNew}>Login</Text>
                             </TouchableOpacity>
                         </View>

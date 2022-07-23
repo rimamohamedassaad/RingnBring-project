@@ -71,7 +71,7 @@ export default function Home() {
     let match = /\.(\w+)$/.exec(filename);
     let type = match ? `image/${match[1]}` : `image`;
     //save the image in firebase firestore
-    const imgRef = ref(storage, `avatar/${new Date().getTime()}-${filename}`);
+    const imgRef = ref(storage, `images/${new Date().getTime()}-${filename}`);
     const metadata = {
       contentType: type,
       size: 1024,
@@ -83,7 +83,7 @@ export default function Home() {
       console.log({ snap });
 
       const url = await getDownloadURL(ref(storage, snap.ref.fullPath));
-      await setDoc(doc(db, "potentialFeedbacks", auth.currentUser.uid), {
+      await setDoc(doc(db, "post", auth.currentUser.uid), {
         username: instauser,
         caption: caption,
         imageURL: url,
